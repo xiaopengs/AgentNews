@@ -1,0 +1,29 @@
+# 依赖目录
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+
+# 环境文件
+.env
+.env.local
+.env.*.local
+
+# 日志文件
+*.log
+logs/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 构建输出
+dist/
+build/
+*.egg-info/
