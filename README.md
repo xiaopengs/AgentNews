@@ -356,10 +356,62 @@ python -m src.api.main
 
 ---
 
+## AI 日报归档
+
+> 每周一、三、五、六自动推送，聚焦 **AI Coding** 与**具身智能**方向的重要动态。
+
+<details>
+<summary>📅 2026-03-21（星期六）</summary>
+
+### 🔵 1. Cursor 发布自研编程模型 Composer 2
+
+**事件：** Cursor 正式发布首个自研模型 Composer 2，通过持续预训练 + 强化学习训练而来，在 SWE-bench Multilingual 上达到 **73.7%**、Terminal-Bench 2.0 达到 **61.7%**。定价仅 $0.50/$2.50（每百万 token），远低于 Anthropic/OpenAI 同级别模型。同步发布新界面 Glass alpha 版。
+
+**为什么值得关注：** Cursor 从"用别人模型"走向"自己训练编程专用模型"，是 AI coding 赛道进入纵深竞争的信号。极低的定价策略直指 Anthropic 和 OpenAI 的核心利益，后续博弈值得持续观察。
+
+---
+
+### 🔴 2. OpenAI 收购 Python 工具链公司 Astral，并计划推出桌面超级应用
+
+**事件：** OpenAI 收购了 Ruff、uv、ty 等工具的开发商 Astral（月下载量达数亿次），意在将其整合进 Codex 编程智能体，覆盖完整开发周期。与此同时，《华尔街日报》报道 OpenAI 正将 ChatGPT + Codex + Atlas 浏览器合并为一个统一的桌面"超级应用"。
+
+**为什么值得关注：** 收购 Astral 意味着 OpenAI 在 AI coding 上从"模型层"延伸至"工具链层"，对现有 Python 生态的影响深远。超级应用战略则直接对标 Google 和 Anthropic，是产品整合的关键一步。
+
+---
+
+### 🟢 3. Google AI Studio 推出"全栈 vibe coding"平台
+
+**事件：** Google AI Studio 上线"全栈 vibe coding"功能，集成 Antigravity 编程智能体 + Firebase，支持实时多人协作、自动依赖安装、API 密钥管理，通过自然语言提示即可生成并部署生产级应用。同步推出 AI 原生 UI 设计工具 Stitch。
+
+**为什么值得关注：** Google 把模型能力、数据库、部署打通成一条流水线，是对"从想法到上线"全流程的激进整合，对 Replit、Vercel、Cursor 等均构成竞争压力。
+
+---
+
+### 🟡 4. LangChain 发布 Open-SWE + NVIDIA Newton 开源机器人物理引擎
+
+**事件（双线）：**
+- **Open-SWE**：LangChain 发布开源异步编程智能体，支持非阻塞并行处理，面向复杂软件工程任务，透明可扩展。
+- **Newton**：NVIDIA Warp 衍生的开源 GPU 加速物理仿真引擎，专为机器人研究设计，Apache-2.0 授权，登上 GitHub Trending。
+
+**为什么值得关注：** Open-SWE 是 LangChain 从框架商走向智能体产品的重要一步；Newton 为具身智能研究提供了高性能开源仿真底座，降低了机器人学习的门槛。
+
+---
+
+### 🟣 5. 中国正式发布人形机器人与具身智能国家标准体系
+
+**事件：** 中国发布《2026版人形机器人与具身智能标准体系》，这是国内首个覆盖具身智能全产业链的顶层标准设计，涵盖感知、运动、交互等核心环节。官方数据显示中国拥有全球 60% 的 AI 专利，机器人专利数量占全球约 2/3。
+
+**为什么值得关注：** 标准出台意味着具身智能产业从"野蛮生长"转向"规范化竞争"阶段，对国内相关创业公司和供应链影响深远，也是中国在这一赛道确立技术话语权的重要动作。
+
+</details>
+
+---
+
 ## 开发路线图
 
 ### v0.1 - MVP (当前)
 - [x] 项目架构设计
+- [x] 自动化日报调度（WorkBuddy Automation）
 - [ ] 基础信息收集 Agent
 - [ ] 简单选题推荐
 - [ ] Claude 接入
