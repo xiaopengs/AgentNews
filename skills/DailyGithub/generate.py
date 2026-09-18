@@ -55,6 +55,47 @@ FONT_DIR = "/usr/share/fonts/opentype/noto"
 FONT_BOLD = os.path.join(FONT_DIR, "NotoSerifCJK-Bold.ttc")
 FONT_REGULAR = os.path.join(FONT_DIR, "NotoSansCJK-Regular.ttc")
 
+# 常见开源项目中文描述数据库
+CURATED_DESCRIPTIONS = {
+    "TencentCloud/Octop": "腾讯云推出的智能 AI 助手平台，支持多用户、多 Agent 协作，可私有化部署，适合企业级智能对话场景。",
+    "cloudflare/security-audit-skill": "Cloudflare 推出的安全审计 Agent 技能，支持多阶段安全审计，可独立验证并生成机器可读的安全发现报告。",
+    "alibaba/open-code-review": "阿里巴巴开源的代码审查工具，采用混合架构（确定性流水线 + LLM Agent），支持多语言规则集，涵盖 NPE、线程安全、XSS、SQL 注入等检测，兼容 OpenAI 和 Anthropic 模型。",
+    "Tencent/BrowserSkill": "腾讯推出的浏览器自动化技能，让 AI Agent 使用真实登录态浏览器执行操作，不干扰用户工作，支持 CLI 和扩展两种模式。",
+    "affaan-m/ECC": "Agent 性能优化系统，提供技能、直觉、记忆、安全等模块，支持 Claude Code、Codex、Opencode、Cursor 等主流 AI 编程工具。",
+    "Tencent/WeKnora": "腾讯开源的 LLM 知识平台，可将原始文档转化为可查询的 RAG 系统，具备自主推理 Agent 和自我维护 Wiki 能力。",
+    "langchain-ai/langchain": "最流行的 LLM 应用开发框架，提供链式调用、Agent、RAG 等核心能力，生态丰富，社区活跃。",
+    "openai/openai-python": "OpenAI 官方 Python SDK，提供 GPT、DALL·E、Whisper 等模型的统一调用接口。",
+    "microsoft/TypeScript": "微软开发的 JavaScript 超集，添加静态类型系统，大幅提升大型项目的可维护性和开发体验。",
+    "rust-lang/rust": "注重安全、并发和性能的系统编程语言，零成本抽象和无垃圾回收是其核心特色。",
+    "pytorch/pytorch": "Meta 开源的深度学习框架，以动态计算图和 Python 友好著称，是学术研究的首选框架。",
+    "tensorflow/tensorflow": "Google 开源的端到端机器学习平台，支持从训练到部署的全流程，适合生产环境大规模应用。",
+    "huggingface/transformers": "HuggingFace 推出的 NLP 模型库，提供数千个预训练模型的统一接口，覆盖文本、图像、语音等多模态任务。",
+    "vercel/next.js": "React 全栈框架，支持服务端渲染、静态生成和 API 路由，是构建现代 Web 应用的主流选择。",
+    "docker/compose": "Docker 官方多容器编排工具，通过 YAML 文件定义和运行多容器应用，简化微服务开发流程。",
+    "kubernetes/kubernetes": "Google 开源的容器编排平台，自动化部署、扩展和管理容器化应用，是云原生基础设施的核心。",
+    "ansible/ansible": "Red Hat 开源的自动化运维工具，无需 Agent 即可管理数千台服务器，支持配置管理、应用部署和任务编排。",
+    "grafana/grafana": "开源的可观测性平台，支持多数据源可视化监控和告警，是 DevOps 团队的标配工具。",
+    "prometheus/prometheus": "CNCF 毕业项目，开源的监控系统和时序数据库，通过 Pull 模型采集指标，是云原生监控的事实标准。",
+    "elastic/elasticsearch": "开源的分布式搜索和分析引擎，基于 Lucene 构建，支持全文搜索、结构化搜索和分析，广泛用于日志和数据分析。",
+    "apache/kafka": "LinkedIn 开源的分布式流处理平台，高吞吐、低延迟，是事件驱动架构和实时数据管道的核心组件。",
+    "redis/redis": "开源的内存数据结构存储，支持字符串、哈希、列表、集合等多种数据类型，广泛用于缓存、会话和消息队列。",
+    "nginx/nginx": "高性能 HTTP 和反向代理服务器，以高并发、低内存著称，是全球使用最广泛的 Web 服务器之一。",
+    "postgres/postgres": "世界上最先进的开源关系型数据库，支持 JSON、全文搜索、地理信息等扩展，是复杂业务场景的首选。",
+    "mongodb/mongo": "开源的文档型 NoSQL 数据库，灵活的 Schema 设计和强大的查询能力，适合快速迭代的应用开发。",
+}
+
+
+def translate_description(full_name, english_desc):
+    """获取项目的中文描述，优先使用 curated 数据库"""
+    if full_name in CURATED_DESCRIPTIONS:
+        return CURATED_DESCRIPTIONS[full_name]
+    # 尝试模糊匹配（忽略大小写）
+    for key, value in CURATED_DESCRIPTIONS.items():
+        if key.lower() == full_name.lower():
+            return value
+    # 没有 curated 描述，返回原始英文
+    return english_desc
+
 
 # ─── 数据获取 ─────────────────────────────────────────────────────────────────
 
@@ -339,7 +380,7 @@ def draw_project_card(draw, fonts, project, rank, y):
 
     # 语言 + 星标 + 今日增长 信息行
     info_y = ny + 38
-    lang = project.get("language", "Unknown")
+    lang = project.get("language", "未知")
 
     # 语言圆点
     draw.ellipse([nx, info_y + 3, nx + 10, info_y + 13], fill=C["lang_dot"])
@@ -359,12 +400,14 @@ def draw_project_card(draw, fonts, project, rank, y):
     today_stars = project.get("today_stars", 0)
     if today_stars > 0:
         tx = fx + 110
-        draw.text((tx, info_y), f"▲ +{today_stars:,} today", fill=C["up"], font=fonts["small"])
+        draw.text((tx, info_y), f"▲ +{today_stars:,} 今日", fill=C["up"], font=fonts["small"])
 
-    # 描述区域
+    # 描述区域 - 使用中文描述
     desc = project.get("description", "暂无描述").strip()
     if not desc:
         desc = "暂无描述"
+    # 翻译为中文
+    desc = translate_description(project["full_name"], desc)
 
     desc_x = nx
     desc_y = info_y + 28
@@ -382,7 +425,7 @@ def draw_project_card(draw, fonts, project, rank, y):
         bbox = draw.textbbox((0, 0), big_text, font=fonts["big_num"])
         bw = bbox[2] - bbox[0]
         draw.text((big_x + (130 - bw) // 2, big_y), big_text, fill=rank_color, font=fonts["big_num"])
-        draw.text((big_x + 35, big_y + 46), "today", fill=C["text_light"], font=fonts["tag"])
+        draw.text((big_x + 35, big_y + 46), "今日", fill=C["text_light"], font=fonts["tag"])
 
     return card_h + 14
 
@@ -411,7 +454,7 @@ def generate_image(projects, output_path):
     draw.rectangle([0, header_h - 2, IMG_W, header_h], fill=(80, 140, 230))
 
     # 主标题
-    draw_text_center(draw, "Daily GitHub Trending", 32, fonts["title"], C["text_white"])
+    draw_text_center(draw, "每日 GitHub 热门项目", 32, fonts["title"], C["text_white"])
 
     # 副标题
     subtitle = f"{TODAY} {WEEKDAY}  ·  每日上升最快的 6 个开源项目"
