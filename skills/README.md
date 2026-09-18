@@ -10,7 +10,7 @@
 
 **路径：** `skills/DailyGithub/`
 
-**功能：** 从 GitHub Trending 获取当日上升最快的 6 个开源项目，生成一张精美的信息图（1080x1920），适合分享到社交媒体。
+**功能：** 从 GitHub Trending 日榜筛选 6 个开源项目，生成一张 1024×1536 的暖奶油色信息图，适合分享到社交媒体。指定项目模式下首位是指定项目，序号不代表全站排名。
 
 **使用方式：**
 ```bash
@@ -79,5 +79,5 @@ python3 skills/MyNewSkill/main.py
 - 使用 Python 3.10+ 编写
 - 依赖库：Pillow、requests（已安装）
 - 输出文件统一放在 `output/` 子目录
-- 图片尺寸统一为 1080x1920（竖版，适合手机分享）
+- 图片尺寸按各 Skill 的视觉模板定义；DailyGithub 为 1024×1536（2:3）
 - 使用 Noto Sans CJK / Noto Serif CJK 字体（已安装）
